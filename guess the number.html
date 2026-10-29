@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>No UI Game</title>
+</head>
+
+<body>
+
+    <input type="number" id="guess" placeholder="Enter a number (1-100)">
+    <button onclick="playTurn()">Submit</button>
+    <p id="message"></p>
+
+    <script>
+        const target = Math.floor(Math.random() * 100) + 1;
+        let attempts = 0;
+
+        function playTurn() {
+            const input = document.getElementById("guess");
+            const guess = Number(input.value);
+            const message = document.getElementById("message");
+
+            if (input.value === "" || guess < 1 || guess > 100) {
+                message.textContent = "Enter a number between 1 and 100.";
+                return;
+            }
+
+            attempts++;
+
+
+            if (guess === target && attempts % 5 !== 0) {
+                message.textContent =
+                    `YOU WIN! Target: ${target}. Attempts: ${attempts}.`;
+                input.disabled = true;
+                return;
+            }
+
+
+            const fTarget = target + Math.floor(Math.random() * 11) - 5;
+
+            message.textContent =
+                guess < fTarget ? "HIGHER ▲" : "LOWER ▼";
+
+            input.value = "";
+            input.focus();
+        }
+    </script>
+
+</body>
+
+</html>
