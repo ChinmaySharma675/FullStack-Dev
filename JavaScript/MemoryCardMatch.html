@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Memory Card Match</title>
+
+    <style>
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(4, 80px);
+            gap: 10px;
+        }
+
+        .card {
+            width: 80px;
+            height: 80px;
+            font-size: 30px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>Memory Card Match</h2>
+
+    <p>Score: <span id="score">0</span></p>
+
+    <div class="grid" id="grid"></div>
+
+    <script>
+
+        let icons = ["🍎", "🍎", "🐶", "🐶",
+            "⚽", "⚽", "🚗", "🚗",
+            "🌟", "🌟", "🍕", "🍕",
+            "🐱", "🐱", "🎵", "🎵"];
+
+        // Shuffle the cards
+        icons.sort(function () {
+            return Math.random() - 0.5;
+        });
+
+        let grid = document.getElementById("grid");
+        let score = 0;
+
+        let firstCard = null;
+        let secondCard = null;
+        let lock = false;
+
+        // Create the cards
+        for (let i = 0; i < 16; i++) {
+
+            let button = document.createElement("button");
+
+            button.className = "card";
+            button.innerHTML = "?";
+
+            button.onclick = function () {
+                clickCard(button, icons[i]);
+            };
+
+            grid.appendChild(button);
+        }
+
+        function clickCard(card, icon) {
+
+            if (lock) {
+                return;
+            }
+
+            if (card.innerHTML != "?") {
+                return;
+            }
+
+            card.innerHTML = icon;
+
+            if (firstCard == null) {
+
+                firstCard = {
+                    button: card,
+                    icon: icon
+                };
+
+            }
+            else {
+
+                secondCard = {
+                    button: card,
+                    icon: icon
+                };
+
+                if (firstCard.icon == secondCard.icon) {
+
+                    score++;
+                    document.getElementById("score").innerHTML = score;
+
+                    firstCard = null;
+                    secondCard = null;
+
+                }
+                else {
+
+                    lock = true;
+
+                    setTimeout(function () {
+
+                        firstCard.button.innerHTML = "?";
+                        secondCard.button.innerHTML = "?";
+
+                        firstCard = null;
+                        secondCard = null;
+
+                        lock = false;
+
+                    }, 1000);
+                }
+            }
+        }
+
+    </script>
+
+</body>
+
+</html>

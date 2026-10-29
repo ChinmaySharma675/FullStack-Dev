@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Reaction Timer</title>
+
+    <style>
+        #screen {
+            width: 400px;
+            height: 250px;
+            background: lightgray;
+            border: 1px solid black;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+<h2>Reaction Timer</h2>
+
+<div id="screen" onclick="clicked()">Wait...</div>
+
+<p id="result"></p>
+
+<script>
+    let screen = document.getElementById("screen");
+
+    let startTime;
+    let timer;
+    let ready = false;
+
+    let delay = Math.floor(Math.random() * 2000) + 3000;
+
+    timer = setTimeout(function() {
+        screen.style.backgroundColor = "green";
+        screen.innerHTML = "CLICK!";
+        startTime = new Date().getTime();
+        ready = true;
+    }, delay);
+
+    function clicked() {
+
+        if (!ready) {
+            clearTimeout(timer);
+            screen.innerHTML = "Too early!";
+            document.getElementById("result").innerHTML =
+                "Flag: Too early";
+
+            ready = false;
+            return;
+        }
+
+        let endTime = new Date().getTime();
+        let reactionTime = endTime - startTime;
+
+        screen.style.backgroundColor = "lightgray";
+        screen.innerHTML = "Click again to restart";
+
+        document.getElementById("result").innerHTML =
+            "Reaction Time: " + reactionTime + " ms<br>" +
+            "Flag: " + getFlag(reactionTime);
+
+        ready = false;
+    }
+
+    function getFlag(time) {
+
+        if (time < 200) {
+            return "Perfect timing";
+        }
+        else if (time < 500) {
+            return "Good";
+        }
+        else {
+            return "Too late";
+        }
+    }
+</script>
+
+</body>
+</html>

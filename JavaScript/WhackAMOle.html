@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Whack a Mole</title>
+    <style>
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            gap: 10px;
+        }
+
+        .hole {
+            width: 100px;
+            height: 100px;
+            background: lightgray;
+            border: 1px solid black;
+            font-size: 40px;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Whack a Mole</h2>
+<p>Score: <span id="score">0</span></p>
+
+<div class="grid">
+    <button class="hole" onclick="whack(0)"></button>
+    <button class="hole" onclick="whack(1)"></button>
+    <button class="hole" onclick="whack(2)"></button>
+    <button class="hole" onclick="whack(3)"></button>
+    <button class="hole" onclick="whack(4)"></button>
+    <button class="hole" onclick="whack(5)"></button>
+    <button class="hole" onclick="whack(6)"></button>
+    <button class="hole" onclick="whack(7)"></button>
+    <button class="hole" onclick="whack(8)"></button>
+</div>
+
+<script>
+    let score = 0;
+    let molePosition;
+
+    let holes = document.querySelectorAll(".hole");
+
+    function showMole() {
+        holes.forEach(function(hole) {
+            hole.innerHTML = "";
+        });
+
+        molePosition = Math.floor(Math.random() * 9);
+        holes[molePosition].innerHTML = "🐹";
+    }
+
+    function whack(position) {
+        if (position == molePosition) {
+            score++;
+            document.getElementById("score").innerHTML = score;
+            showMole();
+        }
+    }
+
+    showMole();
+
+    setInterval(showMole, 1000);
+</script>
+
+</body>
+</html>
